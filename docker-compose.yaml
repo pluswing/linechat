@@ -1,0 +1,9 @@
+version: '3'
+services:
+  linebot:
+    build: .
+    tty: true
+    volumes:
+      - ".:/linebot"
+    working_dir: "/linebot"
+    command: "node"
