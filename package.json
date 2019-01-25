@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "pluswing Inc.",
   "license": "ISC",
@@ -14,10 +14,13 @@
     "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.1",
     "@types/mocha": "^5.2.5",
+    "@types/qs": "^6.5.1",
+    "axios": "^0.18.0",
     "chai": "^4.2.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
+    "qs": "^6.6.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"

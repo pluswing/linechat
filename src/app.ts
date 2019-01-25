@@ -6,7 +6,6 @@ import LineMessageEvent from "./model/line_message_event";
 dotenv.config();
 
 const config = {
-    channelAccessToken: "",
     channelSecret: process.env.CHANNEL_SECRET || "",
 };
 
