@@ -6,4 +6,6 @@ services:
     volumes:
       - ".:/linebot"
     working_dir: "/linebot"
+    ports:
+      - "3000:3000"
     command: "node"

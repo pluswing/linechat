@@ -20,6 +20,7 @@ app.post("/callback", line.middleware(config), (req, res) => {
 });
 
 const handleEvent = async (event: LineMessageEvent) => {
+    console.log(event);
     // FIXME 将来的には不要。
     if (event.type !== "message" || event.message.type !== "text") {
         // ignore non-text-message event
@@ -27,3 +28,9 @@ const handleEvent = async (event: LineMessageEvent) => {
     }
     // TODO store message
 };
+
+// listen on port
+const port = 3000;
+app.listen(port, () => {
+    console.log(`listening on ${port}`);
+});
