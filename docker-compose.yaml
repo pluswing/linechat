@@ -1,11 +1,11 @@
 version: '3'
 services:
-  linebot:
-    build: .
+  api:
+    build: ./api
     tty: true
     volumes:
-      - ".:/linebot"
-    working_dir: "/linebot"
+      - "./api:/api"
+    working_dir: "/api"
     ports:
       - "3000:3000"
     command: "node"
