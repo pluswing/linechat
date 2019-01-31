@@ -9,3 +9,12 @@ services:
     ports:
       - "3000:3000"
     command: "node"
+  front:
+    build: ./front
+    tty: true
+    volumes:
+      - "./front:/front"
+    working_dir: "/front"
+    ports:
+      - "3010:8080"
+    command: "node"
