@@ -3,21 +3,29 @@ import User from "../model/user";
 
 export default class MessageRepository {
 
-    private users: User[] = [];
-    private messages: Message[] = [];
+    private userList: User[] = [];
+    private messageList: Message[] = [];
 
     public store(message: Message) {
-        this.messages.push(message);
-        if (!this.users.find((u) => u.userId === message.user.userId)) {
-            this.users.push(message.user);
+        this.messageList.push(message);
+        if (!this.userList.find((u) => u.userId === message.user.userId)) {
+            this.userList.push(message.user);
         }
     }
 
     public userCount(): number {
-        return this.users.length;
+        return this.userList.length;
     }
 
     public messageCount(): number {
-        return this.messages.length;
+        return this.messageList.length;
+    }
+
+    public users(): User[] {
+        return this.userList;
+    }
+
+    public messages(user: User): Message[] {
+        return this.messageList.filter((m) => m.user.equals(user));
     }
 }

@@ -4,4 +4,8 @@ export default class User {
     constructor(id: string) {
         this.userId = id;
     }
+
+    public equals(user: User): boolean {
+        return this.userId === user.userId;
+    }
 }

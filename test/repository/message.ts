@@ -21,4 +21,32 @@ describe("message", () => {
         assert.equal(2, r.messageCount());
 
     });
+
+    it("users", () => {
+        const u1 = new User("a");
+        const u2 = new User("b");
+
+        const r = new MessageRepository();
+
+        r.store(new Message(u1, ""));
+        r.store(new Message(u2, ""));
+
+        assert.equal(2, r.users().length);
+        // FIXME
+        // assert.equal([u1, u2], r.users());
+    });
+
+    it("messages", () => {
+        const u1 = new User("a");
+        const u2 = new User("b");
+
+        const r = new MessageRepository();
+
+        r.store(new Message(u1, "1"));
+        r.store(new Message(u2, "2"));
+        r.store(new Message(u1, "3"));
+
+        assert.equal(2, r.messages(u1).length);
+        assert.equal(1, r.messages(u2).length);
+    });
 });
