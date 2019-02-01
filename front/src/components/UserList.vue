@@ -4,24 +4,11 @@
       <v-subheader>{{ type }}</v-subheader>
       <v-layout row wrap>
         <v-spacer></v-spacer>
-        <v-flex v-for="card in cards" :key="card" xs12 sm6 md4>
+        <v-flex v-for="user in users" :key="user.id" xs12 sm6 md4>
           <v-card>
-            <v-img :src="`https://picsum.photos/200/300?image=${getImage()}`" height="300px">
-              <span class="headline white--text pl-3 pt-3" v-text="card.title"></span>
-            </v-img>
-            <v-card-actions class="white justify-center">
-              <v-btn
-                v-for="(social, i) in socials"
-                :key="i"
-                :color="social.color"
-                class="white--text"
-                fab
-                icon
-                small
-              >
-                <v-icon>{{ social.icon }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+            {{ user.name }}
+            <v-icon>{{ user.image }}</v-icon>
+            {{ user.lastActions }}
           </v-card>
         </v-flex>
       </v-layout>
@@ -32,23 +19,21 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+class User {
+  public id: string = '123456';
+  public name: string = 'ユーザ';
+  public image: string = 'remove_circle_outline';
+  public lastActions: string = 'received';
+  public timestamp = new Date();
+}
+
 @Component
 export default class UserList extends Vue {
-  public types: string[] = ['Places to Be', 'Places to See'];
-  public cards: string[] = ['Good', 'Best', 'Finest'];
-  public socials: Array<{ [key: string]: string }> = [
-    {
-      icon: 'fab fa-facebook',
-      color: 'indigo',
-    },
-    {
-      icon: 'fab fa-linkedin',
-      color: 'cyan darken-1',
-    },
-    {
-      icon: 'fab fa-instagram',
-      color: 'red lighten-3',
-    },
+  public types: string[] = ['新着', '返信済'];
+  public users: User[] = [
+    new User(),
+    new User(),
+    new User(),
   ];
   public getImage(): number {
     const min = 550;
