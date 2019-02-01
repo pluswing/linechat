@@ -12,23 +12,19 @@
     </v-toolbar>
 
     <v-content>
-      <HelloWorld/>
+      <UserList/>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import UserList from '@/components/UserList.vue';
 
-export default {
-  name: 'App',
+@Component({
   components: {
-    HelloWorld,
+    UserList,
   },
-  data() {
-    return {
-      //
-    };
-  },
-};
+})
+export default class App extends Vue { }
 </script>
