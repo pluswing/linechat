@@ -1,14 +1,25 @@
 <template>
   <v-content>
     <v-container v-for="type in types" :key="type" fluid grid-list-md grey lighten-4>
-      <v-subheader>{{ type }}</v-subheader>
+      <v-subheader class="headline font-weight-bold">{{ type }}</v-subheader>
       <v-layout row wrap>
         <v-spacer></v-spacer>
         <v-flex v-for="user in users" :key="user.id" xs12 sm6 md4>
-          <v-card>
-            {{ user.name }}
-            <v-icon>{{ user.image }}</v-icon>
-            {{ user.lastActions }}
+          <v-card class="mx-auto" color="#268e66" dark max-width="400">
+            <v-card-title>
+              <v-list-tile-avatar color="grey darken-3">
+                <v-img class="elevation-6" :src="user.image"></v-img>
+              </v-list-tile-avatar>
+              <span class="title font-weight-bold">{{ user.name }}</span>
+            </v-card-title>
+            <v-card-text>{{ user.lastMessage }}</v-card-text>
+            <v-card-actions>
+              <v-list-tile class="grow">
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ user.since() }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
@@ -18,13 +29,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import moment from 'moment';
 
 class User {
   public id: string = '123456';
   public name: string = 'ユーザ';
-  public image: string = 'remove_circle_outline';
+  public image: string = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light';
+  public lastMessage: string = 'めっせーじ';
   public lastActions: string = 'received';
   public timestamp = new Date();
+  public since() {
+    return moment(this.timestamp).fromNow();
+  }
 }
 
 @Component
