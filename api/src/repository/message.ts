@@ -28,4 +28,8 @@ export default class MessageRepository {
     public messages(user: User): Message[] {
         return this.messageList.filter((m) => m.user.equals(user));
     }
+
+    public hasUser(user: User): boolean {
+        return this.users().filter((u) => u.equals(user)).length !== 0;
+    }
 }

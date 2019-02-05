@@ -1,5 +1,7 @@
 import LineMessage from "./line_message";
 import LineMessageSource from "./line_message_source";
+import Message from "./message";
+import User from "./user";
 
 export default class LineMessageEvent {
     public replyToken: string;
@@ -14,5 +16,11 @@ export default class LineMessageEvent {
         this.timestamp = timestamp;
         this.source = source;
         this.message = message;
+    }
+
+    public toMessage(): Message {
+        const m = new Message(new User(this.source.userId), this.message.text);
+        m.timestamp = this.timestamp;
+        return m;
     }
 }

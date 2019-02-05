@@ -49,4 +49,15 @@ describe("message", () => {
         assert.equal(2, r.messages(u1).length);
         assert.equal(1, r.messages(u2).length);
     });
+
+    it("hasUser", () => {
+        const u1 = new User("a");
+
+        const r = new MessageRepository();
+
+        r.store(new Message(u1, "1"));
+
+        assert.isTrue(r.hasUser(u1));
+        assert.isFalse(r.hasUser(new User("b")));
+    });
 });
