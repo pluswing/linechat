@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node src/app.ts",
     "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "pluswing Inc.",

@@ -1,3 +1,4 @@
+
 export default class LineMessageSource {
     public type: string;
     public userId: string;

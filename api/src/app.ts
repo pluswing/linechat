@@ -1,6 +1,7 @@
 import * as line from "@line/bot-sdk";
 import * as dotenv from "dotenv";
 import express from "express";
+import LineAccessToken from "./entity/line_access_token";
 import LineMessageEvent from "./model/line_message_event";
 
 dotenv.config();
@@ -27,6 +28,11 @@ const handleEvent = async (event: LineMessageEvent) => {
         return null;
     }
     // TODO store message
+    const at = new LineAccessToken();
+    const channelAccessToken = await at.renew();
+    const client = new line.Client({ channelAccessToken, ...config });
+    const profile = await client.getProfile(event.source.userId);
+    console.log(profile);
 };
 
 // listen on port
