@@ -6,12 +6,14 @@
         <v-spacer></v-spacer>
         <v-flex v-for="user in users" :key="user.id" xs12 sm6 md4>
           <v-card class="mx-auto" color="#268e66" dark max-width="400">
-            <v-card-title>
-              <v-list-tile-avatar color="grey darken-3">
-                <v-img class="elevation-6" :src="user.image"></v-img>
-              </v-list-tile-avatar>
-              <span class="title font-weight-bold">{{ user.name }}</span>
-            </v-card-title>
+            <router-link :to="{ name: 'MessageThread', params: { userId: 123 }}">
+              <v-card-title>
+                <v-list-tile-avatar color="dark darken-3">
+                  <v-img class="elevation-6" :src="user.image"></v-img>
+                </v-list-tile-avatar>
+                <span class="title font-weight-bold">{{ user.name }}</span>
+              </v-card-title>
+            </router-link>
             <v-card-text>{{ user.lastMessage }}</v-card-text>
             <v-card-actions>
               <v-list-tile class="grow">
@@ -29,19 +31,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import moment from 'moment';
-
-class User {
-  public id: string = '123456';
-  public name: string = 'ユーザ';
-  public image: string = 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light';
-  public lastMessage: string = 'めっせーじ';
-  public lastActions: string = 'received';
-  public timestamp = new Date();
-  public since() {
-    return moment(this.timestamp).fromNow();
-  }
-}
+import User from '@/entities/User';
+import axios from 'axios';
 
 @Component
 export default class UserList extends Vue {
@@ -51,13 +42,19 @@ export default class UserList extends Vue {
     new User(),
     new User(),
   ];
-  public getImage(): number {
-    const min = 550;
-    const max = 560;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+
+  public mounted() {
+    axios.post('http://localhost:3000/users', {}).then((res) => {
+      this.users = res.data.users.map((r: User) => {
+        const u = new User();
+        u.id = r.name;
+        u.name = r.name;
+        u.image = r.image;
+        return u;
+      });
+      console.log(this.users);
+      console.log(res.data.users);
+    });
   }
 }
 </script>
-
-<style>
-</style>
