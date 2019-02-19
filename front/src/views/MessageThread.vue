@@ -12,6 +12,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Message from '@/entities/Message';
 import MessageView from '@/components/MessageView.vue';
 import MessageForm from '@/components/MessageForm.vue';
+import axios from 'axios';
 
 @Component({
   components: {
@@ -21,6 +22,7 @@ import MessageForm from '@/components/MessageForm.vue';
 })
 export default class MessageThread extends Vue {
   public messages: Message[] = [];
+  public userId: string = '';
 
   public created() {
     const ms: Message[] = [];
@@ -28,6 +30,8 @@ export default class MessageThread extends Vue {
       ms.push(this.createDummyMessage());
     }
     this.messages = ms;
+
+    this.userId = this.$route.name || '';
   }
 
   public createDummyMessage(): Message {
@@ -42,6 +46,12 @@ export default class MessageThread extends Vue {
 
   public sendMessage(message: string) {
     // TODO call push API
+    axios.post('http://localhost:3000/push', {
+      userId: 'U0fb28515c4ce76b0b58b0c2b3465a369',
+      message,
+    }).then((res) => {
+      console.log(res.data);
+    });
   }
 }
 </script>

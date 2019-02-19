@@ -47,7 +47,7 @@ export default class UserList extends Vue {
     axios.post('http://localhost:3000/users', {}).then((res) => {
       this.users = res.data.users.map((r: User) => {
         const u = new User();
-        u.id = r.name;
+        u.id = r.id;
         u.name = r.name;
         u.image = r.image;
         return u;

@@ -76,6 +76,22 @@ app.post("/messages", async (req, res) => {
     });
 });
 
+app.post("/push", async (req, res) => {
+    console.log(req.body);
+    const userId = req.body.userId;
+    const message = req.body.message;
+
+    try {
+        const api = new LineClient(client);
+        api.push(userId, message);
+        res.json({
+            success: true,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 // listen on port
 const port = 3000;
 app.listen(port, () => {
