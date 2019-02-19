@@ -2,7 +2,7 @@
   <v-layout>
     <!-- user message -->
     <v-layout justify-start pb-3 v-if="!message.operator">
-      <v-flex xs2 pr-2>
+      <v-flex xs2 pr-2 text-xs-right>
         <v-avatar color="grey lighten-4">
           <img :src="message.image" alt="avatar">
         </v-avatar>
