@@ -6,7 +6,7 @@
         <v-spacer></v-spacer>
         <v-flex v-for="user in users" :key="user.id" xs12 sm6 md4>
           <v-card class="mx-auto" color="#268e66" dark max-width="400">
-            <router-link :to="{ name: 'MessageThread', params: { userId: 123 }}">
+            <router-link :to="{ name: 'MessageThread', params: { userId: user.id }}">
               <v-card-title>
                 <v-list-tile-avatar color="dark darken-3">
                   <v-img class="elevation-6" :src="user.image"></v-img>

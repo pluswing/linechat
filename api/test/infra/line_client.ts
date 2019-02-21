@@ -15,7 +15,7 @@ describe("infra/LineClient", () => {
         const p = new Profile("", "hoge", "http://fuga");
         const u = new User("a");
         p.fill(u);
-        assert.equal("a", u.userId);
+        assert.equal("a", u.id);
         assert.equal("hoge", u.name);
         assert.equal("http://fuga", u.image);
     });

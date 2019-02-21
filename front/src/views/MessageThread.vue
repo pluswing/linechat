@@ -24,14 +24,10 @@ export default class MessageThread extends Vue {
   public messages: Message[] = [];
   public userId: string = '';
 
-  public created() {
-    const ms: Message[] = [];
-    for (let i = 0; i < 10; i++) {
-      ms.push(this.createDummyMessage());
-    }
-    this.messages = ms;
-
-    this.userId = this.$route.name || '';
+  public async created() {
+    this.userId = this.$route.params.userId || '';
+    this.messages = await this.fetchMessage();
+    console.log(this.messages);
   }
 
   public createDummyMessage(): Message {
@@ -47,11 +43,19 @@ export default class MessageThread extends Vue {
   public sendMessage(message: string) {
     // TODO call push API
     axios.post('http://localhost:3000/push', {
-      userId: 'U0fb28515c4ce76b0b58b0c2b3465a369',
+      userId: this.userId,
       message,
     }).then((res) => {
       console.log(res.data);
     });
+  }
+
+  private async fetchMessage(): Promise<Message[]> {
+    const res = await axios.post('http://localhost:3000/messages', {
+      userId: this.userId,
+    });
+    const messages: Message[] = res.data.messages;
+    return messages;
   }
 }
 </script>

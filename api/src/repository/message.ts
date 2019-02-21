@@ -8,7 +8,7 @@ export default class MessageRepository {
 
     public store(message: Message) {
         this.messageList.push(message);
-        if (!this.userList.find((u) => u.userId === message.user.userId)) {
+        if (!this.userList.find((u) => u.equals(message.user))) {
             this.userList.push(message.user);
         }
     }

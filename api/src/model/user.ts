@@ -1,13 +1,13 @@
 export default class User {
-    public userId: string = "";
+    public id: string = "";
     public name: string = "";
     public image: string = "";
 
     constructor(id: string) {
-        this.userId = id;
+        this.id = id;
     }
 
     public equals(user: User): boolean {
-        return this.userId === user.userId;
+        return this.id === user.id;
     }
 }

@@ -13,7 +13,7 @@ export default new Router({
       component: () => import('./views/UserList.vue'),
     },
     {
-      path: '/message_thread',
+      path: '/message_thread/:userId',
       name: 'MessageThread',
       component: () => import('./views/MessageThread.vue'),
     },

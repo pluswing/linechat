@@ -68,11 +68,22 @@ app.post("/users", async (req, res) => {
 });
 
 app.post("/messages", async (req, res) => {
-    console.log(req.body);
     const userId = req.body.userId;
     const messages = messageRepository.messages(new User(userId));
+
+    const rms: Array<{ [key: string]: any }> = [];
+    messages.forEach((m) => {
+        const rm: { [key: string]: any } = {};
+        rm.id = "" + m.timestamp;
+        rm.message = m.text;
+        rm.operator = false;
+        rm.name = m.user.name;
+        rm.image = m.user.image;
+        rm.timestamp = m.timestamp;
+        rms.push(rm);
+    });
     res.json({
-        messages,
+        messages: rms,
     });
 });
 

@@ -12,16 +12,11 @@ export default class StoreMessage {
     }
 
     public async execute(event: LineMessageEvent) {
-        console.log("----");
         const message: Message = event.toMessage();
-        console.log("====");
         if (!this.messageRepository.hasUser(message.user)) {
-            console.log("!!!!");
-            const profile = await this.lineClient.getProfile(message.user.userId);
-            console.log(profile);
+            const profile = await this.lineClient.getProfile(message.user.id);
             profile.fill(message.user);
         }
-        console.log(message);
         this.messageRepository.store(message);
     }
 }
