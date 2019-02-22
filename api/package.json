@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "nodemon",
     "test": "mocha -r ts-node/register test/**/*.ts"
   },
   "author": "pluswing Inc.",
@@ -21,9 +21,10 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "mocha": "^5.2.0",
+    "nodemon": "^1.18.10",
     "qs": "^6.6.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
-    "typescript": "^3.2.4"
+    "typescript": "^3.3.3"
   }
 }
