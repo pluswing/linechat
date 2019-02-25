@@ -19,7 +19,7 @@ export default class LineMessageEvent {
     }
 
     public toMessage(): Message {
-        const m = new Message(new User(this.source.userId), this.message.text);
+        const m = Message.userMessage(new User(this.source.userId), this.message.text);
         m.timestamp = this.timestamp;
         return m;
     }

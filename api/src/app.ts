@@ -1,4 +1,5 @@
 import * as line from "@line/bot-sdk";
+import { WebhookEvent } from "@line/bot-sdk";
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import express from "express";
@@ -7,8 +8,11 @@ import LineClient from "./infra/line_client";
 import LineMessage from "./model/line_message";
 import LineMessageEvent from "./model/line_message_event";
 import LineMessageSource from "./model/line_message_source";
+import Message from "./model/message";
+import Operator from "./model/operator";
 import User from "./model/user";
 import MessageRepository from "./repository/message";
+import PushMessage from "./usecase/push_message";
 import StoreMessage from "./usecase/store_message";
 
 dotenv.config();
@@ -42,18 +46,18 @@ app.post("/callback", line.middleware(config), (req, res) => {
         });
 });
 
-const handleEvent = async (ev: LineMessageEvent) => {
+const handleEvent = async (ev: WebhookEvent) => {
     console.log(ev);
     // FIXME 将来的には不要。
     if (ev.type !== "message" || ev.message.type !== "text") {
         // ignore non-text-message event
         return null;
     }
-    // TODO store message
-    const sm = new StoreMessage(messageRepository, new LineClient(client));
     const event = new LineMessageEvent(ev.replyToken, ev.type, ev.timestamp,
-        new LineMessageSource(ev.source.type, ev.source.userId),
+        new LineMessageSource(ev.source.type, ev.source.userId || ""),
         new LineMessage(ev.message.id, ev.message.type, ev.message.text));
+
+    const sm = new StoreMessage(messageRepository, new LineClient(client));
     await sm.execute(event);
 };
 
@@ -62,6 +66,7 @@ app.use(bodyParser.json());
 
 app.post("/users", async (req, res) => {
     const users = messageRepository.users();
+    console.log(users);
     res.json({
         users,
     });
@@ -69,16 +74,16 @@ app.post("/users", async (req, res) => {
 
 app.post("/messages", async (req, res) => {
     const userId = req.body.userId;
-    const messages = messageRepository.messages(new User(userId));
+    const messages = messageRepository.receivedMessages(new User(userId));
 
     const rms: Array<{ [key: string]: any }> = [];
     messages.forEach((m) => {
         const rm: { [key: string]: any } = {};
         rm.id = "" + m.timestamp;
         rm.message = m.text;
-        rm.operator = false;
-        rm.name = m.user.name;
-        rm.image = m.user.image;
+        rm.operator = m.fromUser.operatorId != null;
+        rm.name = m.fromUser.name;
+        rm.image = m.fromUser.image;
         rm.timestamp = m.timestamp;
         rms.push(rm);
     });
@@ -93,13 +98,22 @@ app.post("/push", async (req, res) => {
     const message = req.body.message;
 
     try {
-        const api = new LineClient(client);
-        api.push(userId, message);
+        // TODO ログインセッションから取得する
+        const pwUser = new User("pluswing");
+        pwUser.name = "pluswing";
+        pwUser.image = "https://lh6.googleusercontent.com/-ArRTUp0ox08/AAAAAAAAAAI/AAAAAAAAAAg/B1N6iRsdCJE/photo.jpg";
+        const operator = new Operator(1, pwUser);
+
+        const u = new PushMessage(new LineClient(client), messageRepository);
+        await u.execute(Message.operatorMessage(operator, new User(userId), message));
         res.json({
             success: true,
         });
     } catch (e) {
         console.log(e);
+        res.json({
+            success: false,
+        });
     }
 });
 

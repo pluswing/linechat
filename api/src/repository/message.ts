@@ -8,8 +8,11 @@ export default class MessageRepository {
 
     public store(message: Message) {
         this.messageList.push(message);
-        if (!this.userList.find((u) => u.equals(message.user))) {
-            this.userList.push(message.user);
+        if (!this.userList.find((u) => u.equals(message.fromUser))) {
+            this.userList.push(message.fromUser);
+        }
+        if (!this.userList.find((u) => u.equals(message.toUser))) {
+            this.userList.push(message.toUser);
         }
     }
 
@@ -25,8 +28,8 @@ export default class MessageRepository {
         return this.userList;
     }
 
-    public messages(user: User): Message[] {
-        return this.messageList.filter((m) => m.user.equals(user));
+    public receivedMessages(user: User): Message[] {
+        return this.messageList.filter((m) => m.toUser.equals(user));
     }
 
     public hasUser(user: User): boolean {
